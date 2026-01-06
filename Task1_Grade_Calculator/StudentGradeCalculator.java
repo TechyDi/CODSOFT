@@ -56,5 +56,12 @@ public class StudentGradeCalculator extends JFrame {
         footerPanel.setLayout(new GridLayout(4, 1, 5, 5));
         footerPanel.setBorder(BorderFactory.createEmptyBorder(10, 40, 20, 40));
         footerPanel.setOpaque(false);
+        
+        // Buttons
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 20, 0));
+        buttonPanel.setOpaque(false);
+        btnCompute = new JButton("Calculate Grade");
+        btnClear = new JButton("Clear Form");
+        
 
         
