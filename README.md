@@ -70,6 +70,7 @@ To run these projects locally, ensure you have **Java Development Kit (JDK) 8** 
 1.  **Clone the Repository:**
     ```bash
     git clone [https://github.com/TechyDi/CODSOFT.git](https://github.com/TechyDi/CODSOFT.git)
+    [LinkedIn Profile](https://www.linkedin.com/in/dineshkmohanta)
     cd CODSOFT
     ```
 
