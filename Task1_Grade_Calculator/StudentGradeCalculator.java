@@ -50,3 +50,11 @@ public class StudentGradeCalculator extends JFrame {
             inputPanel.add(marksInputs[i]);
         }
         add(inputPanel, BorderLayout.CENTER);
+        
+        // 3. Results & Action Section (South)
+        JPanel footerPanel = new JPanel();
+        footerPanel.setLayout(new GridLayout(4, 1, 5, 5));
+        footerPanel.setBorder(BorderFactory.createEmptyBorder(10, 40, 20, 40));
+        footerPanel.setOpaque(false);
+
+        
