@@ -88,4 +88,4 @@ This project is licensed under the **MIT License**.
 ---
 
 ### 👨‍💻 Author
-**Your Name** *Aspiring Software Engineer & Java Developer* [LinkedIn Profile](https://linkedin.com/in/your-profile) | [GitHub Profile](https://github.com/your-username)
+**Your Name** *Aspiring Software Engineer & Java Developer* [LinkedIn Profile](https://www.linkedin.com/in/dineshkmohanta) | [GitHub Profile](https://github.com/TechyDi)
