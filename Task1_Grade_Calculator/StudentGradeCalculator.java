@@ -87,3 +87,19 @@ public class StudentGradeCalculator extends JFrame {
         btnCompute.addActionListener(e -> performCalculation());
         btnClear.addActionListener(e -> clearForm());
     }
+    
+    //Helper Method to Style Buttons ---
+    private void styleButton(JButton btn, Color bg) {
+        btn.setBackground(bg);
+        btn.setForeground(Color.WHITE);
+        btn.setFont(new Font("Arial", Font.BOLD, 12));
+        btn.setFocusPainted(false);
+        btn.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+    }
+
+    //Helper Method for Result Labels ---
+    private JLabel createResultLabel(String text) {
+        JLabel lbl = new JLabel(text, SwingConstants.CENTER);
+        lbl.setFont(new Font("Verdana", Font.PLAIN, 14));
+        return lbl;
+    }
