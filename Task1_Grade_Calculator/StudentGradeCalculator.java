@@ -75,3 +75,15 @@ public class StudentGradeCalculator extends JFrame {
         lblAvgDisplay = createResultLabel("Average Percentage: 0.0%");
         lblGradeDisplay = createResultLabel("Grade: N/A");
         lblGradeDisplay.setFont(new Font("Arial", Font.BOLD, 16));
+
+        footerPanel.add(buttonPanel);
+        footerPanel.add(lblTotalDisplay);
+        footerPanel.add(lblAvgDisplay);
+        footerPanel.add(lblGradeDisplay);
+
+        add(footerPanel, BorderLayout.SOUTH);
+
+        //Event Listeners ---
+        btnCompute.addActionListener(e -> performCalculation());
+        btnClear.addActionListener(e -> clearForm());
+    }
