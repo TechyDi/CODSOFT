@@ -103,3 +103,21 @@ public class StudentGradeCalculator extends JFrame {
         lbl.setFont(new Font("Verdana", Font.PLAIN, 14));
         return lbl;
     }
+    //Core Logic ---
+    private void performCalculation() {
+        double totalMarks = 0;
+        boolean hasError = false;
+
+        for (JTextField markInput : marksInputs) {
+            try {
+                double mark = Double.parseDouble(markInput.getText());
+                if (mark < 0 || mark > 100) {
+                    throw new NumberFormatException("Marks must be between 0 and 100.");
+                }
+                totalMarks += mark;
+            } catch (NumberFormatException ex) {
+                hasError = true;
+                JOptionPane.showMessageDialog(this, "Please enter valid marks (0-100) for all subjects.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                break;
+            }
+        }
