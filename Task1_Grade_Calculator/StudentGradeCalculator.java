@@ -121,3 +121,18 @@ public class StudentGradeCalculator extends JFrame {
                 break;
             }
         }
+        if (!hasError) {
+            double average = totalMarks / subjects.length;
+            String grade = computeGrade(average);
+            
+            lblTotalDisplay.setText("Total Marks: " + (int)totalMarks + " / " + (subjects.length * 100));
+            lblAvgDisplay.setText(String.format("Average Percentage: %.2f%%", average));
+            lblGradeDisplay.setText("Grade: " + grade);
+            
+            // Dynamic Color for Grade
+            if (grade.equals("F")) lblGradeDisplay.setForeground(Color.RED);
+            else if (grade.equals("A")) lblGradeDisplay.setForeground(new Color(34, 139, 34)); // Forest Green
+            else lblGradeDisplay.setForeground(Color.BLACK);
+        }
+    }
+
