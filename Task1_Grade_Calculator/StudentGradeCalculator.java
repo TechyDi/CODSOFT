@@ -143,3 +143,21 @@ public class StudentGradeCalculator extends JFrame {
         else if (avg >= 60) return "D";
         else return "F";
     }
+    private void clearForm() {
+        for (JTextField field : marksInputs) {
+            field.setText("");
+        }
+        lblTotalDisplay.setText("Total Marks: 0 / 500");
+        lblAvgDisplay.setText("Average Percentage: 0.0%");
+        lblGradeDisplay.setText("Grade: N/A");
+        lblGradeDisplay.setForeground(Color.BLACK);
+    }
+    //Main Entry Point ---
+    public static void main(String[] args) {
+        // Ensure UI updates happen on the Event Dispatch Thread (Best Practice)
+        SwingUtilities.invokeLater(() -> {
+            StudentGradeCalculator app = new StudentGradeCalculator();
+            app.setVisible(true);
+        });
+    }
+}
