@@ -18,5 +18,14 @@ public class BankAccount {
         }
     }
 
-
+    public boolean withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            return true;
+        } else if (amount > balance) {
+            return false; // Insufficient funds
+        } else {
+            throw new IllegalArgumentException("Withdrawal amount must be positive.");
+        }
+    }
 }
