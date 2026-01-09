@@ -30,3 +30,10 @@ public class ATMSystem extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+        
+        // 1. TOP SECTION: Screen / Display
+        JPanel displayPanel = new JPanel();
+        displayPanel.setLayout(new GridLayout(3, 1));
+        displayPanel.setBackground(COLOR_PRIMARY);
+        displayPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    }
