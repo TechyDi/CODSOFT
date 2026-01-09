@@ -36,4 +36,10 @@ public class ATMSystem extends JFrame {
         displayPanel.setLayout(new GridLayout(3, 1));
         displayPanel.setBackground(COLOR_PRIMARY);
         displayPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        JLabel lblBankTitle = new JLabel("SECURE BANKING SYSTEM");
+        lblBankTitle.setForeground(new Color(189, 195, 199)); // Light Grey
+        lblBankTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        lblBankTitle.setFont(new Font("SansSerif", Font.BOLD, 12));
     }
+}
