@@ -71,6 +71,10 @@ public class ATMSystem extends JFrame {
         txtAmount.setHorizontalAlignment(JTextField.CENTER);
         txtAmount.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, COLOR_PRIMARY));
         txtAmount.setBackground(COLOR_BG);
+        
+        inputPanel.add(lblEnterAmount);
+        inputPanel.add(txtAmount);
+        add(inputPanel, BorderLayout.CENTER);
 
     }
 }
