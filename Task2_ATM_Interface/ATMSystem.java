@@ -62,6 +62,15 @@ public class ATMSystem extends JFrame {
         JPanel inputPanel = new JPanel();
         inputPanel.setBackground(COLOR_BG);
         inputPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 20));
+                
+        JLabel lblEnterAmount = new JLabel("Enter Amount:");
+        lblEnterAmount.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        
+        txtAmount = new JTextField(15);
+        txtAmount.setFont(new Font("Monospaced", Font.BOLD, 16));
+        txtAmount.setHorizontalAlignment(JTextField.CENTER);
+        txtAmount.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, COLOR_PRIMARY));
+        txtAmount.setBackground(COLOR_BG);
 
     }
 }
