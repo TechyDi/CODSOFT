@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 public class ATMSystem extends JFrame {
     
     //Business Logic Link ---
@@ -82,5 +83,12 @@ public class ATMSystem extends JFrame {
         buttonPanel.setBackground(COLOR_BG);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 20, 20));
 
+        // Create Custom Styled Buttons
+        JButton btnDeposit = createStyledButton("DEPOSIT", COLOR_SUCCESS);
+        JButton btnWithdraw = createStyledButton("WITHDRAW", COLOR_WARNING);
+        JButton btnCheckBal = createStyledButton("CHECK BALANCE", COLOR_ACCENT);
+        JButton btnExit = createStyledButton("EXIT", Color.GRAY);
+    
+        
     }
 }
