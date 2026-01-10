@@ -57,6 +57,11 @@ public class ATMSystem extends JFrame {
         displayPanel.add(lblStatus);
         
         add(displayPanel, BorderLayout.NORTH);
+        
+        // 2. CENTER SECTION: Input Field
+        JPanel inputPanel = new JPanel();
+        inputPanel.setBackground(COLOR_BG);
+        inputPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 20));
 
     }
 }
