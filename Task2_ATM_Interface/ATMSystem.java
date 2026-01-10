@@ -41,5 +41,22 @@ public class ATMSystem extends JFrame {
         lblBankTitle.setForeground(new Color(189, 195, 199)); // Light Grey
         lblBankTitle.setHorizontalAlignment(SwingConstants.CENTER);
         lblBankTitle.setFont(new Font("SansSerif", Font.BOLD, 12));
+        
+        lblBalanceDisplay = new JLabel("₹ 10,000.00");
+        lblBalanceDisplay.setForeground(Color.WHITE);
+        lblBalanceDisplay.setHorizontalAlignment(SwingConstants.CENTER);
+        lblBalanceDisplay.setFont(new Font("SansSerif", Font.BOLD, 36));
+        
+        lblStatus = new JLabel("Welcome. Select a transaction.");
+        lblStatus.setForeground(new Color(127, 140, 141)); // Muted Grey
+        lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
+        lblStatus.setFont(new Font("SansSerif", Font.ITALIC, 12));
+
+        displayPanel.add(lblBankTitle);
+        displayPanel.add(lblBalanceDisplay);
+        displayPanel.add(lblStatus);
+        
+        add(displayPanel, BorderLayout.NORTH);
+
     }
 }
