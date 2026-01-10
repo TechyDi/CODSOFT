@@ -88,6 +88,15 @@ public class ATMSystem extends JFrame {
         JButton btnWithdraw = createStyledButton("WITHDRAW", COLOR_WARNING);
         JButton btnCheckBal = createStyledButton("CHECK BALANCE", COLOR_ACCENT);
         JButton btnExit = createStyledButton("EXIT", Color.GRAY);
+        
+        buttonPanel.add(btnDeposit);
+        buttonPanel.add(btnWithdraw);
+        buttonPanel.add(btnCheckBal);
+        buttonPanel.add(btnExit);
+
+        add(buttonPanel, BorderLayout.SOUTH);
+
+        
     
         
     }
