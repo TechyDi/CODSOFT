@@ -183,9 +183,10 @@ public class ATMSystem extends JFrame {
         lblStatus.setForeground(Color.RED);
         JOptionPane.showMessageDialog(this, msg, "Transaction Error", JOptionPane.ERROR_MESSAGE);
     }
-
-
-    
-        
+        // --- Main Launcher ---
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new ATMSystem().setVisible(true);
+        });        
     }
 }
