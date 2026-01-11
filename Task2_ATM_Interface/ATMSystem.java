@@ -96,6 +96,37 @@ public class ATMSystem extends JFrame {
 
         add(buttonPanel, BorderLayout.SOUTH);
 
+        //Event Listeners ---
+        btnDeposit.addActionListener(e -> handleDeposit());
+        btnWithdraw.addActionListener(e -> handleWithdraw());
+        btnCheckBal.addActionListener(e -> {
+            lblStatus.setText("Balance Updated.");
+            refreshBalance();
+        });
+        btnExit.addActionListener(e -> System.exit(0));
+    }
+
+    //Helper Method to Create Beautiful Buttons ---
+    private JButton createStyledButton(String text, Color bg) {
+        JButton btn = new JButton(text);
+        btn.setBackground(bg);
+        btn.setForeground(Color.WHITE);
+        btn.setFocusPainted(false);
+        btn.setFont(new Font("SansSerif", Font.BOLD, 12));
+        btn.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                
+        // Add "Hover" Effect for better UI Experience
+        btn.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                btn.setBackground(bg.darker());
+                btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+            public void mouseExited(MouseEvent evt) {
+                btn.setBackground(bg);
+            }
+        });
+        return btn;
+    }
         
     
         
