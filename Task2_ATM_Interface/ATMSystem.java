@@ -127,7 +127,64 @@ public class ATMSystem extends JFrame {
         });
         return btn;
     }
+    
+    //Logic Handlers ---
+    private void handleDeposit() {
+        try {
+            double amount = parseInput();
+            userAccount.deposit(amount);
+            refreshBalance();
+            lblStatus.setText("Success: Deposited ₹" + amount);
+            lblStatus.setForeground(new Color(39, 174, 96)); // Green Text
+            clearInput();
+        } catch (NumberFormatException e) {
+            showError("Please enter a valid number.");
+        } catch (IllegalArgumentException e) {
+            showError(e.getMessage());
+        }
+    }
         
+    private void handleWithdraw() {
+        try {
+            double amount = parseInput();
+            boolean success = userAccount.withdraw(amount);
+            if (success) {
+                refreshBalance();
+                lblStatus.setText("Success: Withdrawn ₹" + amount);
+                lblStatus.setForeground(new Color(211, 84, 0)); // Orange Text
+                clearInput();
+            } else {
+                showError("Insufficient Balance!");
+            }
+        } catch (NumberFormatException e) {
+            showError("Please enter a valid number.");
+        } catch (IllegalArgumentException e) {
+            showError(e.getMessage());
+        }
+    }
+
+    private double parseInput() throws NumberFormatException {
+        String text = txtAmount.getText();
+        if (text.isEmpty()) throw new NumberFormatException();
+        return Double.parseDouble(text);
+    }
+
+    private void refreshBalance() {
+        // Format to currency style
+        lblBalanceDisplay.setText(String.format("$%,.2f", userAccount.getBalance()));
+    }
+
+    private void clearInput() {
+        txtAmount.setText("");
+    }
+
+    private void showError(String msg) {
+        lblStatus.setText(msg);
+        lblStatus.setForeground(Color.RED);
+        JOptionPane.showMessageDialog(this, msg, "Transaction Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+
     
         
     }
