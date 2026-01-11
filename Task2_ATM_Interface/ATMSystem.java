@@ -115,7 +115,7 @@ public class ATMSystem extends JFrame {
         btn.setFont(new Font("SansSerif", Font.BOLD, 12));
         btn.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                 
-        // Add "Hover" Effect for better UI Experience
+        //Add "Hover" Effect for better UI Experience
         btn.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
                 btn.setBackground(bg.darker());
@@ -171,7 +171,7 @@ public class ATMSystem extends JFrame {
 
     private void refreshBalance() {
         // Format to currency style
-        lblBalanceDisplay.setText(String.format("$%,.2f", userAccount.getBalance()));
+        lblBalanceDisplay.setText(String.format("₹%,.2f", userAccount.getBalance()));
     }
 
     private void clearInput() {
@@ -183,7 +183,7 @@ public class ATMSystem extends JFrame {
         lblStatus.setForeground(Color.RED);
         JOptionPane.showMessageDialog(this, msg, "Transaction Error", JOptionPane.ERROR_MESSAGE);
     }
-        // --- Main Launcher ---
+        //Main Launcher ---
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             new ATMSystem().setVisible(true);
