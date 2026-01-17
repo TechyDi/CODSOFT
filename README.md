@@ -58,7 +58,6 @@ A secure banking simulation that strictly separates the **User Interface** from 
 ### 🚀 Technical Highlights
 * **Live Search with Highlighting:** As you type, the table filters in real-time. Matching text inside the table is **highlighted in yellow**, mimicking the "Find in Page" behavior of modern browsers.
 * **Smart Data Persistence:** Uses `Java Serialization` to store objects directly to a `.dat` file. Data survives application restarts.
-* **Gmail-Style Bulk Actions:** The table features a checkbox column allowed for selecting and deleting multiple records simultaneously.
 * **Strict Input Normalization:** A custom `DocumentFilter` forces Grade inputs to be uppercase (A-F) and rejects invalid characters before they appear on the screen.
 * **Empty-State Dashboard:** To simulate real-world app performance, data is loaded in the background but the table starts empty until the user searches or clicks "Show All."
 
@@ -66,10 +65,11 @@ A secure banking simulation that strictly separates the **User Interface** from 
 * **Create:** Add new students with auto-validating Roll Numbers.
 * **Read:** Live search by Name or Roll ID, or view the full database.
 * **Update:** Click any row to auto-populate the form for editing.
-* **Delete:** Remove single or multiple records with a confirmation dialog.
+* **Delete:** Remove any specific record with a confirmation dialog.
 
 ### 🔮 Future Roadmap (Coming Soon)
 - [ ] **Authentication System:** Adding a Login Screen with "Admin" (Full Access) and "Guest" (Read-Only) roles.
+- [ ] **Gmail-Style Bulk Actions:** The table features a checkbox column allowed for selecting and deleting multiple records simultaneously.
 - [ ] **Database Integration:** Migrating from `.dat` files to **MySQL/SQLite** for scalable storage.
 - [ ] **Report Generation:** A feature to export the student list to a **PDF** or **CSV** file.
 
@@ -103,7 +103,7 @@ If you find this code useful or want to collaborate on the "Future Roadmap" feat
   <a href="https://www.linkedin.com/in/dineshkmohanta">
     <img src="https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin" alt="Connect on LinkedIn" />
   </a>
-  <a href="mailto:your-email@example.com">
+  <a href="mailto:dineshkmohanta@gmail.com">
     <img src="https://img.shields.io/badge/Email-Contact_Me-red?style=for-the-badge&logo=gmail" alt="Email Me" />
   </a>
 </p>
