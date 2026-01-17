@@ -58,6 +58,7 @@ public class StudentManagement extends JFrame {
         JLabel titleLabel = new JLabel("Student Management Portal", SwingConstants.CENTER);
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 200, 0, 0));
         headerPanel.add(titleLabel, BorderLayout.CENTER);
 
         // Search Bar (Right Side)
@@ -66,6 +67,8 @@ public class StudentManagement extends JFrame {
 
         txtSearch = new JTextField(15);
         txtSearch.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        txtSearch.setText("Search Name/Roll");      //Set the text immediately
+        txtSearch.setForeground(COL_PLACEHOLDER);     //Set the color to Gray immediately
         setPlaceholderLogic(txtSearch, "Search Name/Roll"); 
 
         // Live Search Listener
@@ -84,6 +87,7 @@ public class StudentManagement extends JFrame {
 
         searchPanel.add(txtSearch);
         searchPanel.add(btnSearch);
+        searchPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
         headerPanel.add(searchPanel, BorderLayout.EAST);
 
         add(headerPanel, BorderLayout.NORTH);
@@ -105,15 +109,15 @@ public class StudentManagement extends JFrame {
         // Initialize Fields
         txtRoll = createFieldWithPlaceholder("Enter Roll No");
         txtName = createFieldWithPlaceholder("Enter Full Name");
-        txtGrade = createFieldWithPlaceholder("e.g. A, B, 90%");
+        txtGrade = createFieldWithPlaceholder("e.g. A, B...");
         txtEmail = createFieldWithPlaceholder("example@mail.com");
 
         // Add fields
         int gridY = 0;
-        addFormItem(formPanel, new JLabel("Roll Number (ID):"), txtRoll, gbc, gridY++);
-        addFormItem(formPanel, new JLabel("Full Name:"), txtName, gbc, gridY++);
-        addFormItem(formPanel, new JLabel("Grade:"), txtGrade, gbc, gridY++);
-        addFormItem(formPanel, new JLabel("Email (Optional):"), txtEmail, gbc, gridY++);
+        addFormItem(formPanel, new JLabel("Roll Number (ID)* :"), txtRoll, gbc, gridY++);
+        addFormItem(formPanel, new JLabel("Full Name* :"), txtName, gbc, gridY++);
+        addFormItem(formPanel, new JLabel("Grade(A-F)* :"), txtGrade, gbc, gridY++);
+        addFormItem(formPanel, new JLabel("Email :"), txtEmail, gbc, gridY++);
 
         mainInputPanel.add(formPanel, BorderLayout.NORTH);
 
@@ -301,9 +305,7 @@ public class StudentManagement extends JFrame {
         for (Student s : studentList) {
             // Check Roll No, Name, Grade, Email
             if (String.valueOf(s.getRollNumber()).contains(queryLower) || 
-                s.getName().toLowerCase().contains(queryLower) ||
-                s.getGrade().toLowerCase().contains(queryLower) ||
-                s.getEmail().toLowerCase().contains(queryLower)) {
+                s.getName().toLowerCase().contains(queryLower)) {
                 searchResults.add(s);
                 found = true;
             }
