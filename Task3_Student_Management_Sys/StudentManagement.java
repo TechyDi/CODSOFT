@@ -40,6 +40,9 @@ public class StudentManagement extends JFrame {
     public StudentManagement() {
         // 1. Initialize System
         loadData(); // Load data from file to memory, BUT DO NOT DISPLAY IT YET
+
+        removeDuplicates(); // Delete duplicates from memory
+        saveData();         // Save the clean list back to file
         
         // 2. Window Setup
         setTitle("CodSoft Student Management System");
@@ -440,6 +443,23 @@ public class StudentManagement extends JFrame {
         } catch (IOException e) { showError("Failed to save data!"); }
     }
 
+    //DUPLICATE REMOVER HELPER ---
+    private void removeDuplicates() {
+        // Use a Set to track Roll Numbers we have already seen
+        java.util.HashSet<Integer> existingRolls = new java.util.HashSet<>();
+        List<Student> uniqueList = new ArrayList<>();
+
+        for (Student s : studentList) {
+            // Only add the student if we haven't seen this Roll Number yet
+            if (!existingRolls.contains(s.getRollNumber())) {
+                existingRolls.add(s.getRollNumber());
+                uniqueList.add(s);
+            }
+        }
+        
+        // Update the main list with the clean, unique list
+        studentList = uniqueList;
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new StudentManagement().setVisible(true));
     }
