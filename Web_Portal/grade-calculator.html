@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Calculator | CodSoft Portal</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');
+    </script>
+    <style>
+        .app-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .subject-row {
+            display: grid;
+            grid-template-columns: 1fr 150px auto;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+        
+        .results-panel {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .result-item h4 {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-item .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        #gradeDisplay {
+            font-size: 2.5rem;
+            text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+        }
+        
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: flex-end;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            Dashboard
+        </a>
+    </header>
+
+    <main class="container">
+        <div class="glass-panel app-container animate-fade-in">
+            <div class="header-actions">
+                <div>
+                    <h2>Grade Calculator</h2>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;">Dynamic assessment portal</p>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="studentName">Student Name</label>
+                <input type="text" id="studentName" placeholder="Enter student's full name">
+            </div>
+            
+            <hr style="border: 0; border-top: 1px solid var(--surface-border); margin: 2rem 0;">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3>Subjects & Marks</h3>
+                <button id="addSubjectBtn" class="btn btn-outline btn-icon" title="Add Subject">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                </button>
+            </div>
+            
+            <div id="subjectsContainer">
+                <!-- Subject rows will be injected here via JS -->
+            </div>
+            
+            <div class="controls">
+                <button id="clearBtn" class="btn btn-outline">Clear Form</button>
+                <button id="calculateBtn" class="btn btn-primary">Calculate Grade</button>
+            </div>
+            
+            <div id="resultsPanel" class="results-panel" style="display: none;">
+                <h3 class="text-gradient">Assessment Results</h3>
+                <div class="results-grid">
+                    <div class="result-item">
+                        <h4>Total Marks</h4>
+                        <div class="value" id="totalMarksDisplay">0 / 0</div>
+                    </div>
+                    <div class="result-item">
+                        <h4>Percentage</h4>
+                        <div class="value" id="percentageDisplay">0.00%</div>
+                    </div>
+                    <div class="result-item">
+                        <h4>Final Grade</h4>
+                        <div class="value text-gradient" id="gradeDisplay">A</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 2rem;">
+                    <button id="saveBtn" class="btn btn-primary" style="background: var(--success-color); box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.39);">
+                        Save Results
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="theme.js"></script>
+    <script src="grade.js"></script>
+</body>
+</html>

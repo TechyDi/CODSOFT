@@ -1,4 +1,5 @@
 package CODSOFT.Task3_Student_Management_Sys;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -9,12 +10,13 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class StudentManagement extends JFrame {
 
     //Data Storage ---
     private List<Student> studentList;
-    private final String FILE_NAME = "students.dat";
+    private final String FILE_NAME = "students.csv"; // Migrated to CSV
 
     //GUI Components ---
     private JTextField txtName, txtRoll, txtGrade, txtEmail, txtSearch;
@@ -32,21 +34,25 @@ public class StudentManagement extends JFrame {
     private final Color COL_ADD = new Color(46, 204, 113);    // Green
     private final Color COL_UPDATE = new Color(243, 156, 18); // Orange
     private final Color COL_DELETE = new Color(231, 76, 60);  // Red
-    private final Color COL_SHOW_ALL = new Color(52, 152, 219); // Blue for Show All
+    private final Color COL_SHOW_ALL = new Color(52, 152, 219); // Blue
+    private final Color COL_EXPORT = new Color(155, 89, 182); // Purple
 
     //State Variables ---
     private String currentSearchQuery = ""; // Stores text for highlighting logic
 
+    // Email Validation Regex
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
+
     public StudentManagement() {
         // 1. Initialize System
-        loadData(); // Load data from file to memory, BUT DO NOT DISPLAY IT YET
+        loadData(); // Load data from CSV to memory
 
         removeDuplicates(); // Delete duplicates from memory
-        saveData();         // Save the clean list back to file
+        saveData();         // Save the clean list back to CSV
         
         // 2. Window Setup
-        setTitle("CodSoft Student Management System");
-        setSize(1000, 700); 
+        setTitle("CodSoft Student Management System - Production Ready");
+        setSize(1100, 750); 
         setMinimumSize(new Dimension(900, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
@@ -125,7 +131,7 @@ public class StudentManagement extends JFrame {
         mainInputPanel.add(formPanel, BorderLayout.NORTH);
 
         // 4.2 Button Container
-        JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 10, 10)); 
+        JPanel buttonPanel = new JPanel(new GridLayout(6, 1, 10, 10)); 
         buttonPanel.setBackground(COL_BG);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
 
@@ -133,12 +139,14 @@ public class StudentManagement extends JFrame {
         JButton btnUpdate = createStyledButton("Update Existing", COL_UPDATE);
         JButton btnDelete = createStyledButton("Delete Student", COL_DELETE);
         JButton btnShowAll = createStyledButton("Show All Students", COL_SHOW_ALL); 
+        JButton btnExport = createStyledButton("Export to CSV", COL_EXPORT);
         JButton btnClear = createStyledButton("Clear Form", Color.GRAY);
 
         buttonPanel.add(btnAdd);
         buttonPanel.add(btnUpdate);
         buttonPanel.add(btnDelete);
         buttonPanel.add(btnShowAll); 
+        buttonPanel.add(btnExport);
         buttonPanel.add(btnClear);
 
         // Wrapper
@@ -168,6 +176,9 @@ public class StudentManagement extends JFrame {
         studentTable.getTableHeader().setForeground(Color.WHITE);
         studentTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         
+        // FEATURE: Enable table sorting
+        studentTable.setAutoCreateRowSorter(true);
+        
         // APPLY CUSTOM RENDERER FOR HIGHLIGHTING
         HighlightRenderer renderer = new HighlightRenderer();
         for (int i = 0; i < studentTable.getColumnCount(); i++) {
@@ -178,10 +189,11 @@ public class StudentManagement extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 int selectedRow = studentTable.getSelectedRow();
                 if (selectedRow != -1) {
-                    setFieldValue(txtRoll, tableModel.getValueAt(selectedRow, 0).toString());
-                    setFieldValue(txtName, tableModel.getValueAt(selectedRow, 1).toString());
-                    setFieldValue(txtGrade, tableModel.getValueAt(selectedRow, 2).toString());
-                    setFieldValue(txtEmail, tableModel.getValueAt(selectedRow, 3).toString());
+                    int modelRow = studentTable.convertRowIndexToModel(selectedRow);
+                    setFieldValue(txtRoll, tableModel.getValueAt(modelRow, 0).toString());
+                    setFieldValue(txtName, tableModel.getValueAt(modelRow, 1).toString());
+                    setFieldValue(txtGrade, tableModel.getValueAt(modelRow, 2).toString());
+                    setFieldValue(txtEmail, tableModel.getValueAt(modelRow, 3).toString());
                     txtRoll.setEditable(false);
                 }
             }
@@ -194,6 +206,7 @@ public class StudentManagement extends JFrame {
         btnUpdate.addActionListener(e -> updateStudent());
         btnDelete.addActionListener(e -> deleteStudent());
         btnShowAll.addActionListener(e -> showAllStudents()); 
+        btnExport.addActionListener(e -> exportToCSV());
         btnClear.addActionListener(e -> clearForm());
         
         SwingUtilities.invokeLater(() -> headerPanel.requestFocusInWindow());
@@ -325,7 +338,8 @@ public class StudentManagement extends JFrame {
     private void showAllStudents() {
         currentSearchQuery = ""; // Clear highlighting
         if (studentList.isEmpty()) {
-            showError("Database is empty! Add a student first.");
+            // Do not show error on startup if empty, just clear table
+            refreshTable(studentList);
         } else {
             refreshTable(studentList); 
         }
@@ -342,20 +356,30 @@ public class StudentManagement extends JFrame {
         }
         return grade;
     }
+    
+    private boolean validateEmail(String email) {
+        if (email.isEmpty()) return true; // Optional field
+        if (!EMAIL_PATTERN.matcher(email).matches()) {
+            showError("Invalid Email format!");
+            return false;
+        }
+        return true;
+    }
 
     private void addStudent() {
         String name = getInputValue(txtName, "Enter Full Name");
         String rollStr = getInputValue(txtRoll, "Enter Roll No");
-        String rawGrade = getInputValue(txtGrade, "e.g. A, B, 90%");
+        String rawGrade = getInputValue(txtGrade, "e.g. A, B...");
         String email = getInputValue(txtEmail, "example@mail.com");
 
         if (name.isEmpty() || rollStr.isEmpty() || rawGrade.isEmpty()) {
             showError("Please fill all required fields!"); return;
         }
 
-        // Validate Grade
+        // Validate Grade & Email
         String grade = validateAndFormatGrade(rawGrade);
-        if (grade == null) return; // Stop if invalid
+        if (grade == null) return; 
+        if (!validateEmail(email)) return;
 
         try {
             int roll = Integer.parseInt(rollStr);
@@ -371,20 +395,22 @@ public class StudentManagement extends JFrame {
 
     private void updateStudent() {
         String rollStr = getInputValue(txtRoll, "Enter Roll No");
-        String rawGrade = getInputValue(txtGrade, "e.g. A, B, 90%");
+        String rawGrade = getInputValue(txtGrade, "e.g. A, B...");
         
         if (rollStr.isEmpty()) { showError("Select a student first."); return; }
         
-        // Validate Grade
+        // Validate Grade & Email
         String grade = validateAndFormatGrade(rawGrade);
-        if (grade == null) return; // Stop if invalid
+        if (grade == null) return; 
+        String email = getInputValue(txtEmail, "example@mail.com");
+        if (!validateEmail(email)) return;
 
         int roll = Integer.parseInt(rollStr);
         for (Student s : studentList) {
             if (s.getRollNumber() == roll) {
                 s.setName(getInputValue(txtName, "Enter Full Name")); 
                 s.setGrade(grade); 
-                s.setEmail(getInputValue(txtEmail, "example@mail.com"));
+                s.setEmail(email);
                 saveData(); 
                 refreshTable(studentList); 
                 clearForm(); 
@@ -420,7 +446,7 @@ public class StudentManagement extends JFrame {
     private void clearForm() {
         resetField(txtName, "Enter Full Name");
         resetField(txtRoll, "Enter Roll No");
-        resetField(txtGrade, "e.g. A, B, 90%");
+        resetField(txtGrade, "e.g. A, B...");
         resetField(txtEmail, "example@mail.com");
         txtRoll.setEditable(true); studentTable.clearSelection();
         getContentPane().requestFocusInWindow();
@@ -429,18 +455,63 @@ public class StudentManagement extends JFrame {
     private void showSuccess(String msg) { JOptionPane.showMessageDialog(this, msg, "Success", JOptionPane.INFORMATION_MESSAGE); }
     private void showError(String msg) { JOptionPane.showMessageDialog(this, msg, "Error", JOptionPane.ERROR_MESSAGE); }
 
-    //File Handling ---
-    @SuppressWarnings("unchecked")
+    // --- CSV File Handling ---
+    
     private void loadData() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILE_NAME))) {
-            studentList = (ArrayList<Student>) ois.readObject();
-        } catch (Exception e) { studentList = new ArrayList<>(); }
+        studentList = new ArrayList<>();
+        File file = new File(FILE_NAME);
+        if (!file.exists()) return;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",", -1);
+                if (parts.length >= 4) {
+                    int roll = Integer.parseInt(parts[0]);
+                    String name = parts[1];
+                    String grade = parts[2];
+                    String email = parts[3];
+                    studentList.add(new Student(name, roll, grade, email));
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading CSV data: " + e.getMessage());
+        }
     }
 
     private void saveData() {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_NAME))) {
-            oos.writeObject(studentList);
-        } catch (IOException e) { showError("Failed to save data!"); }
+        try (PrintWriter pw = new PrintWriter(new FileWriter(FILE_NAME))) {
+            for (Student s : studentList) {
+                pw.println(s.getRollNumber() + "," + s.getName() + "," + s.getGrade() + "," + s.getEmail());
+            }
+        } catch (IOException e) {
+            showError("Failed to save data to CSV!");
+        }
+    }
+    
+    private void exportToCSV() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Specify a file to save");   
+        fileChooser.setSelectedFile(new File("exported_students.csv"));
+        
+        int userSelection = fileChooser.showSaveDialog(this);
+         
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            try (PrintWriter pw = new PrintWriter(new FileWriter(fileToSave))) {
+                pw.println("Roll No,Name,Grade,Email");
+                for (int i = 0; i < studentTable.getRowCount(); i++) {
+                    int modelRow = studentTable.convertRowIndexToModel(i);
+                    pw.print(tableModel.getValueAt(modelRow, 0) + ",");
+                    pw.print(tableModel.getValueAt(modelRow, 1) + ",");
+                    pw.print(tableModel.getValueAt(modelRow, 2) + ",");
+                    pw.println(tableModel.getValueAt(modelRow, 3));
+                }
+                showSuccess("Successfully exported to " + fileToSave.getAbsolutePath());
+            } catch (IOException ex) {
+                showError("Failed to export data.");
+            }
+        }
     }
 
     //DUPLICATE REMOVER HELPER ---
@@ -450,14 +521,11 @@ public class StudentManagement extends JFrame {
         List<Student> uniqueList = new ArrayList<>();
 
         for (Student s : studentList) {
-            // Only add the student if we haven't seen this Roll Number yet
             if (!existingRolls.contains(s.getRollNumber())) {
                 existingRolls.add(s.getRollNumber());
                 uniqueList.add(s);
             }
         }
-        
-        // Update the main list with the clean, unique list
         studentList = uniqueList;
     }
     public static void main(String[] args) {
